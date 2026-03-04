@@ -1,0 +1,87 @@
+// 
+// Created Date : 2023/02/01 09:57:57
+// Config File : Hardware_setting_1T1R_64upsample_total128sample_32chirps_COMPLEX_1D_Tracking20220810.xlsx
+// 
+// Pre-RFIC-Script Setting
+// RFFile : C:/work/Python/FPGA_Verify_Tool/TestVector/fpga_test_for_gen_1014_1T1R_Complex\Integration_Test_script\SOCA\A1_RF_script_5764_32_50_B_TX444_2RX97_20200312.txt
+// AI-WeightData-Script
+// AIWeightPath : C:/work/Python/FPGA_Verify_Tool/TestVector/fpga_test_for_gen_1014_1T1R_Complex\ai_acc_weight\sram_bin
+// AIWeightFiles : jr0169.bin
+// select AI_WeightData Excel Param.
+// RevisionHistory Parameters
+// Stop Parameters
+reg_write ( 0x680B0084, 0x00000002);
+// GMISC Parameters
+reg_write ( 0x6000000C, 0x00040000);
+reg_write ( 0x6000000C, 0x00000000);
+reg_write ( 0x60000504, 0x0F001100);
+reg_write ( 0x60000530, 0x0080001F);
+reg_write ( 0x6000057C, 0x00000001);
+reg_write ( 0x60000594, 0x00080000);
+reg_write ( 0x600005A8, 0x000002F1);
+reg_write ( 0x600005AC, 0x1000080A);
+reg_write ( 0x600005B4, 0x00000000);
+reg_write ( 0x600005BC, 0x00003F3F);
+// DSP0 Parameters
+reg_write ( 0x680B0044, 0x00402001);
+reg_write ( 0x680B0048, 0x00000003);
+reg_write ( 0x680B004C, 0x00000000);
+reg_write ( 0x680B0050, 0x00002000);
+reg_write ( 0x680B0084, 0x00000044);
+reg_write ( 0x680B0088, 0x00810D00);
+reg_write ( 0x680B008C, 0x00041010);
+reg_write ( 0x680B00C8, 0x007E0080);
+reg_write ( 0x680B00D8, 0x007E0080);
+reg_write ( 0x680B0040, 0x00000002);
+reg_write ( 0x680B0084, 0x00000100);
+reg_write ( 0x680B00C4, 0x00000001);
+reg_write ( 0x680B00D4, 0x00000001);
+reg_write ( 0x680B0040, 0x00000008);
+reg_write ( 0x680B0098, 0x183D097D);
+reg_write ( 0x680B009C, 0x000001E8);
+reg_write ( 0x680B00E0, 0x01400400);
+reg_write ( 0x680B00E4, 0x3F48020B);
+reg_write ( 0x680B0510, 0x0000003F);
+reg_write ( 0x680B00F0, 0x00001700);
+reg_write ( 0x680B0084, 0x00000100);
+reg_write ( 0x680B0100, 0xFFF60009);
+reg_write ( 0x680B0104, 0xFFF60011);
+reg_write ( 0x680B0108, 0x01130009);
+reg_write ( 0x680B010C, 0xFE04FFEC);
+reg_write ( 0x680B0200, 0x0113FFEC);
+reg_write ( 0x680B0204, 0xDBE409AF);
+reg_write ( 0x680B0208, 0xDBE434F2);
+reg_write ( 0x680B020C, 0x000009AF);
+reg_write ( 0x680B0300, 0x000C0000);
+reg_write ( 0x680B0304, 0x0003000B);
+reg_write ( 0x680B0308, 0x000D0000);
+reg_write ( 0x680B030C, 0x0004000B);
+reg_write ( 0x680B0400, 0x000E0000);
+reg_write ( 0x680B0404, 0x0006000B);
+reg_write ( 0x680B0408, 0xB00C396D);
+reg_write ( 0x680B040C, 0xF36B3305);
+reg_write ( 0x680B0500, 0x92795688);
+reg_write ( 0x680B0504, 0xE9754800);
+reg_write ( 0x680B0508, 0xBE0D2BCE);
+reg_write ( 0x680B050C, 0xEACC0934);
+// DSP1 Parameters
+reg_write ( 0x680C8040, 0x00000003);
+reg_write ( 0x680C8048, 0x20000080);
+reg_write ( 0x680C804C, 0x00400100);
+reg_write ( 0x680C8050, 0x00800000);
+reg_write ( 0x680C8080, 0x00000003);
+reg_write ( 0x680C8088, 0x20000080);
+reg_write ( 0x680C808C, 0x00400100);
+reg_write ( 0x680C8090, 0x00800000);
+reg_write ( 0x680C0150, 0x10002000);
+reg_write ( 0x680C0154, 0x0FC00802);
+// Save Parameters
+reg_write ( 0x680B0084, 0x00000100);
+reg_write ( 0x680B00C4, 0x00000001);
+reg_write ( 0x680B00D4, 0x00000001);
+reg_write ( 0x680B0040, 0x00000008);
+// temp Parameters
+// AI_WeightData Parameters
+// RFIC S2P Set Process
+// Start Parameters
+reg_write ( 0x680B0084, 0x00000001);

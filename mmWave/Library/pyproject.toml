@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "kkt-library"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "kkt_library"}]
+
+[tool.poetry.dependencies]
+python = ">=3.8.9,<3.13"
+pythonnet = "2.5.2"
+pycparser = "2.21"
+numpy = ">=1.24.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

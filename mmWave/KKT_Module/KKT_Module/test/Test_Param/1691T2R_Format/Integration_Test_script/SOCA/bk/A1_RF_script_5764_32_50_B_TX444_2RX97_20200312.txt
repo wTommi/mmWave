@@ -1,0 +1,603 @@
+// Type B power saving
+//  RF setting
+
+//  SIC is disable
+//  1T2R(RX2 is disable)
+
+//  FMCW 57G~64G
+//  chrip Number N=32
+//  Frame=50ms, Tm=102.4us, Tgap=43.2ms // 50ms-102.4us*2*32=43.2ms
+
+
+//  SX offchirp powersaving is enable
+//  TX offchirp powersaving is enable
+//  RX offchirp powersaving is enable
+
+//  SX downchirp powersaving is enable
+//  TX downchirp powersaving is enable
+//  RX downchirp powersaving is enable
+
+//  TDD is disable
+
+// *************************************************************************************************    RFIC_SLEEP()
+01050001	// RF enter Sleep Mode
+// *************************************************************************************************    RF Meomory BIST
+
+// *************************************************************************************************    RFIC_TDD_POWSAV_OFF()
+01290110	// Reset Power Saving to default
+012A0000
+012B0000
+012C0000
+012D0000
+
+01414511
+01420000
+01430000
+01440000
+01450000
+
+015D000E
+015E0000
+01600000
+01613400
+
+0171000E
+01720000
+01740000
+01753400
+
+0185000E
+01860000
+01880000
+01893400
+
+// *************************************************************************************************     RFIC_TXFE_OFF()
+003C10E4	//TXFE_LDO=OFF
+
+// *************************************************************************************************     RFIC_INIT()
+00001CD0	// EN IPI, PTAT=1, CTAT=5
+0111C304	// ZCD_IOS_M : 2->1
+//02030010	// COT Force CCM follow the host loading
+//020077E9        // COT Level=1.1V
+02007785      // COT Level=1,deadtime=4                                             //改動
+02020403        // Avoid COT digital dct floating
+
+
+0006FB6D	//LRX1_DIG_DLDO : 2’b01 (0.9V) => 2’b11 (1V) for sic fail in low temperature.            //改動
+0007002F	//LRX2_DIG_DLDO : 2’b01 (0.9V) => 2’b11 (1V) for sic fail in low temperature.            //改動
+01080007	//LRX3_DIG_DLDO : 2’b01 (0.9V) => 2’b11 (1V) for sic fail in low temperature.            //改動
+
+00153BF7	// Disable SX_LDO_DCT_EN
+00191215	// SXVCO_VAR_BIAS=0
+001A01CB	// SXVCO_TCAP_BIAS=3
+
+003D7018	// EN_TXFE_PPA_BIAS=1, TXFEPD_CBIAS<2>=0
+003EF650	// EN_LO_LDO_VOUT, EN_LODIG_LDO_VOUT
+003F089F	// EN_LOG_PREBUF, LOG_PREBUF_BIAS=15
+00402202	// AD_LOG_PD_OUT_INV=1
+
+0052E00C	// RX_AFE_LDO_CTSD_INT_EN, RX_AFE_LDO_CTSD_COMP_EN
+00530833	// RX_AFE_CTSD_CLK_EN, RX_AFE_DEC_CLK_EN
+0054FFD9	// RX_AFE_CTSD_DAC_SEL=1, EN_LOG_BUF=1, LOG_PREBUF_BIAS=15, EN_LO_LDO_VOUT=1, EN_LODIG_LDO_VOUT=1
+00568000	// AD_LOG_PD_OUT_INV=1
+005D0030	// rxdig_int2en=1, rxdig_int1en=1
+
+0066E00C	// RX_AFE_LDO_CTSD_INT_EN, RX_AFE_LDO_CTSD_COMP_EN
+00670833	// RX_AFE_CTSD_CLK_EN, RX_AFE_DEC_CLK_EN
+0068FFD9	// RX_AFE_CTSD_DAC_SEL=1, EN_LOG_BUF=1, LOG_PREBUF_BIAS=15, EN_LO_LDO_VOUT=1, EN_LODIG_LDO_VOUT=1
+006A8000	// AD_LOG_PD_OUT_INV=1
+00710030	// rxdig_int2en=1, rxdig_int1en=1
+
+007AE00C	// RX_AFE_LDO_CTSD_INT_EN, RX_AFE_LDO_CTSD_COMP_EN
+007B0833	// RX_AFE_CTSD_CLK_EN, RX_AFE_DEC_CLK_EN
+007CFFD9	// RX_AFE_CTSD_DAC_SEL=1, EN_LOG_BUF=1, LOG_PREBUF_BIAS=15, EN_LO_LDO_VOUT=1, EN_LODIG_LDO_VOUT=1
+007E8000	// AD_LOG_PD_OUT_INV=1
+00850030	// rxdig_int2en=1, rxdig_int1en=1
+
+01500016	//RG_CTSD_S1_BIAS_SEL=10
+
+01640016	//RG_CTSD_S1_BIAS_SEL=10
+
+01780016	//RG_CTSD_S1_BIAS_SEL=10
+
+
+
+
+
+// *************************************************************************************************     RFIC_NORMAL()
+01050000	// RF Wake-up to Normal mode
+
+// *************************************************************************************************     RFIC_32KCAL()
+01014D10	// 32K_CAL Target=154, 32K_CAL, toggle ENCAL_32KCAL, 0x101, D6 : 0->1->0
+01014D50
+01014D10
+
+// *************************************************************************************************     RFIC_BGRCAL()
+000C0800	// BGR_CAL, toggle ENCAL_BGRCAL, 0x0C, D4 : 0->1->0
+000C0810
+000C0800
+DL1
+
+// *************************************************************************************************     RFIC_RCCAL()
+011D0247	// RCCAL_TARGET = 583
+011B0000	// RC_CAL, toggle RG_EN_RCCAL, 0x11B, D0 : 0->1->0
+011B0001
+011B0000
+DL1
+
+// *************************************************************************************************     RFIC_SXCAL()
+00185645	// set 57G channel manual
+0027011D
+00284000
+0029407F
+00340080	// SX_FCAL_GWIN=4
+002F1001	// Manual Tcode=0
+00328140	// DA_AC_FINISH=1, ENCAL_SX_FCAL_RCODE=8
+
+00331028	// SX FCAL
+00331828
+00331028
+DL1
+
+00328140
+00328141	// SX ACAL
+00328140
+DL1
+
+00331028	// SX FCAL
+00331828
+DL1
+00331028
+
+00331228	// SX INCCAL
+00331028
+
+0029407E	// release channel manual
+002F0000	// release Tcode
+
+// *************************************************************************************************    RFIC_DCOCAL(FL,FH)
+00210000	// FMCW Modulation BW 57-64GHz
+002211D0
+00252300
+00240000
+00266200
+002A3000
+002B0802
+0029407E
+
+00300000	// rg_ltb_wr_man=0 (release LUT_WR)
+002E03FF	// SX DCO Calibration
+00350004	// DCOCAL_RDLTB_SKIP
+00331028
+00331029
+00331028
+DL50
+00300002	// rg_ltb_wr_man=1 (lock LUT_WR)
+
+// *************************************************************************************************    RFIC_RX1LOG_TANKCAL()
+002A0000	// set DCO point to 32
+002B0514
+00580110	// Release LOG manual mode
+00550000	// Release LOG manual mode
+
+002F8000	// RX1LOG_TANK_CAL
+00590053	// Icode = 3
+00340080
+00342080
+00340080
+DL1
+00590042
+002F0000
+
+// *************************************************************************************************    RFIC_RX1LOG_ACAL()
+0027012E	// SX=60.5GHz
+00286000
+
+0029407F	// WFG_EN=0, Channel man=1
+00300001
+00317F00	// Tcode=[127]
+002F0000	// Toggle Tcode latch
+002F1000
+002F0000
+0054BFD9	// Disable LOG PreBUF
+
+00580D10	// Tank & Buffer = [15]
+00568F00
+
+00590302	// Core Acal PD Target=15 ->8
+00574791	// RX1LOG_ACAL
+0057C791
+00574791
+DL1
+
+0029407E	// Reset to default
+00300002	// rg_ltb_wr_man=1 (lock LUT_WR)
+00310000
+00580110
+00550000
+00590042
+0054FFD9
+
+// *************************************************************************************************    RFIC_RX1LOG_BUFCAL()
+002A0000	// set DCO point to 32
+002B0514
+00580110	// Release LOG manual mode
+00550000	// Release LOG manual mode
+
+0054FFD6	// set target to 6
+002F8000	// RX1LOG BUFACAL
+00340080
+00348080
+00340080
+DL1
+002F0000
+
+// *************************************************************************************************    RFIC_RX2LOG_TANKCAL()
+002A0000	// set DCO point to 32
+002B0514
+006C0110	// Release LOG manual mode
+00690000	// Release LOG manual mode
+
+002F8000	// RX2LOG_TANK_CAL
+006D0053	// Icode = 3
+00340080
+00344080
+00340080
+DL1
+006D0042
+002F0000
+
+// *************************************************************************************************    RFIC_RX2LOG_ACAL()
+0027012E	// SX=60.5GHz
+00286000
+
+0029407F	// WFG_EN=0, Channel man=1
+00300001
+00317F00	// Tcode=[127]
+002F0000	// Toggle Tcode latch
+002F1000
+002F0000
+0068BFD9	// Disable LOG PreBUF
+
+006C0D10	// Tank & Buffer = [15]
+006A8F00
+
+006D0302	// Core Acal PD Target=15 ->8
+006B4791	// RX2LOG_ACAL
+006BC791
+006B4791
+DL1
+
+0029407E	// Reset to default
+00300002	// rg_ltb_wr_man=1 (lock LUT_WR)
+00310000
+006C0110
+00690000
+006D0042
+0068FFD9
+
+// *************************************************************************************************    RFIC_RX2LOG_BUFCAL()
+002A0000	// set DCO point to 32
+002B0514
+006C0110	// Release LOG manual mode
+00690000	// Release LOG manual mode
+
+0068FFD6	// set target to 6
+002F8000	// RX2LOG BUFACAL
+00350004
+00350005
+00350004
+DL1
+002F0000
+
+// *************************************************************************************************    RFIC_RX3LOG_TANKCAL()
+002A0000	// set DCO point to 32
+002B0514
+00800110	// Release LOG manual mode
+007D0000	// Release LOG manual mode
+
+002F8000	// RX3LOG_TANK_CAL
+00810053	// Icode = 3
+01260000
+01260001
+01260000
+DL1
+00810042
+002F0000
+
+// *************************************************************************************************    RFIC_RX3LOG_ACAL()
+0027012E	// SX=60.5GHz
+00286000
+
+0029407F	// WFG_EN=0, Channel man=1
+00300001
+00317F00	// Tcode=[127]
+002F0000	// Toggle Tcode latch
+002F1000
+002F0000
+007CBFD9	// Disable LOG PreBUF
+
+00800D10	// Tank & Buffer = [15]
+007E8F00
+
+00810302	// Core Acal PD Target=15 ->8
+007F4791	// RX3LOG_ACAL
+007FC791
+007F4791
+DL1
+
+0029407E	// Reset to default
+00300002	// rg_ltb_wr_man=1 (lock LUT_WR)
+00310000
+00800110
+007D0000
+00810042
+007CFFD9
+
+// *************************************************************************************************    RFIC_RX3LOG_BUFCAL()
+002A0000	// set DCO point to 32
+002B0514
+00800110	// Release LOG manual mode
+007D0000	// Release LOG manual mode
+
+007CFFD6  	// set target to 6
+002F8000	// RX3LOG BUFACAL
+01260000
+01260002
+01260000
+DL1
+002F0000
+
+// *************************************************************************************************    RFIC_TXFE_ON()
+
+003C10E5	// TXFE_LDO=ON
+DL1
+
+// *************************************************************************************************    RFIC_TXLOG_TANKCAL()
+002A0000	// set DCO point to 32
+002B0514
+00420210	// Release LOG manual mode
+
+002F8000	// TXLOG_TANK_CAL
+00410093	// Icode = 3
+00340080
+00341080
+00340080
+DL1
+00410082
+002F0000
+
+// *************************************************************************************************    RFIC_TXLOG_ACAL()
+0027012E	// SX=60.5GHz
+00286000
+
+0029407F	// WFG_EN=0, Channel man=1
+00300001
+00317F00	// Tcode=[127]
+002F0000	// Toggle Tcode latch
+002F1000
+002F0000
+003F088F	// Disable LOG PreBUF
+
+00423210	// Tank & Buffer = [15]
+0044F780
+
+00410222	// Core Acal PD Target : 15-> 12-> 8
+00402202	// TXLOG_ACAL
+00402302
+00402202
+DL1
+
+0029407E	// Reset to default
+00300002	// rg_ltb_wr_man=1 (lock LUT_WR)
+00310000
+00420210
+00430000
+00410082
+003F089F
+
+// *************************************************************************************************    RFIC_TXLOG_BUFCAL()
+002A0000	// set DCO point to 32
+002B0514
+00420210	// Release LOG manual mode
+
+003EF610	// set target to : 6->8
+002F8000	// TXLOG BUFACAL
+0029407E
+0029487E
+0029407E
+DL1
+002F0000
+
+// *************************************************************************************************    RFIC_CAL_SAV()
+010E0000	// Save the calibration results into SRAM
+010E0001
+DL1
+
+// *************************************************************************************************    RFIC_SLEEP()
+00300002        // LUT Manual Enable
+01050001	// RF enter Sleep Mode
+// *************************************************************************************************    RFIC_TEMP_SAV()
+
+// *************************************************************************************************    RFIC_FIX_TANK()
+00423210	// Fixed TXLOG tank = [15]
+0044F780
+
+00580D10	// Fixed RX1LOG tank = [15]
+00568F00
+
+006C0D10	// Fixed RX2LOG tank = [15]
+006A8F00
+
+00800D10	// Fixed RX3LOG tank = [15]
+007E8F00
+
+// *************************************************************************************************    RFIC_SIC()
+01613400	// RX1 SIC Mode0 : Default
+0162050D
+01630000
+//
+01753400	// RX2 SIC Mode0 : Default
+0176050D
+01770000
+//
+01893400	// RX3 SIC Mode0 : Default
+018A050D
+018B0000
+
+// RX1 SIC Mode2 : TIA Loop + PowerSaving
+//01624D5E	// Atten=12dB
+//01630000	// DAC=x1
+
+// RX2 SIC Mode2 : TIA Loop + PowerSaving
+//01764D5E	// Atten=12dB
+//01770000	// DAC=x1
+
+// RX3 SIC Mode2 : TIA Loop + PowerSaving
+//018A4D5E	// Atten=12dB
+//018B0000	// DAC=x1
+
+// *************************************************************************************************    RFIC_TDD_POWSAV()
+01290085       // SX : OFF -Chirp Saving, Sawtooth wave modulation                                 //改動
+012A0000       // Tguard=0*102.4us                                                                 //改動
+012BD501       // Toff=213x0.2ms, Tbuf=1x0.2ms                                                     //改動
+012C0005       // downchirp Tguard and Tbuff setting, Tdnbuf=5x3.2us                               //改動
+012D0113       // downchifp Toff and Toff setting, Tdnoff=19*3.2us                                 //改動
+
+01412511        // TX : OFF -Chirp Saving                                                          //改動
+01420000        // Tguard=0*102.4us                                                                //改動
+0143D601        // Toff=214x0.2ms, Tbuf=1x0.2ms                                                    //改動
+01440001        // downchirp Tguard and Tbuff setting,s Tdnbuf=1x3.2us                             //改動
+0145011B        // downchifp Toff and Toff setting , Tdnoff=27*3.2us                               //改動
+
+015D1017        // RX1 : OFF-Chirp Saving,Tguard=1*102.4us                                         //改動
+015ED601        // Toff=214x0.2ms, Tbuf=1x0.2ms                                                    //改動
+01600002        // downchirp power saving Tguard and Tbuff setting, Tdnbuf=2x3.2us                 //改動
+01613519        // downchifp power saving Toff and Toff setting, Tdnoff=25*3.2us                   //改動
+//01600000        // no downchirp power saving Tguard and Tbuff setting                            //改動
+//01613400        // no downchifp power saving Toff and Toff setting                               //改動
+
+01711017        // RX2 : OFF-Chirp Saving,Tguard=1*102.4us                                         //改動
+0172D601        // Toff=214x0.2ms, Tbuf=1x0.2ms                                                    //改動
+01740003        // downchirp power saving Tguard and Tbuff setting, Tdnbuf=3x3.2us                 //改動
+01753517        // downchifp power saving Toff and Toff setting, Tdnoff=23*3.2us                   //改動
+//01740000        // no downchirp power saving Tguard and Tbuff setting                            //改動
+//01753400        // no downchifp power saving Toff and Toff setting                               //改動
+
+01851017        // RX3 : OFF-Chirp Saving,Tguard=1*102.4us                                         //改動
+0186D601        // Toff=214x0.2ms, Tbuf=1x0.2ms                                                    //改動
+01880004        // downchirp power saving Tguard and Tbuff setting,Tdnbuff=4*3.2us                 //改動
+01893515        // downchifp power saving Toff and Toff setting, Tdnoff=21*3.2us                   //改動
+//01880000        // no downchirp power saving Tguard and Tbuff setting                            //改動
+//01893400        // no downchifp power saving Toff and Toff setting                               //改動
+
+// *************************************************************************************************    RFIC_TXPOWER(PA_BIAS, PPA_BIAS, TXFE_LDO)
+// Tx Power (~ -2dB)
+//003C0021
+
+// Tx Power (+0dB, K60C default)
+//003C10E5
+
+// Tx Power (+1.5dB, K60SOCA default)
+003C1129	// TXFE_PPA_BIAS = 4, TXFE_LDO = 4, TXFE_PD=4
+
+// Tx Power (~+2.5dB, Tx Max, not recommended, 不建議)
+//003C3FEF
+
+// *************************************************************************************************    RFIC_RX1GAIN(TIA_GAIN, PGA_GAIN)
+//Rx Gain (TIA_GAIN=4, PGA_GAIN=4, Default)
+//01553809
+//01571C09
+//01693809
+//016B1C09
+//017D3809
+//017F1C09
+
+
+//Rx Gain (TIA_GAIN=5, PGA_GAIN=5,~+2.8dB)
+//0155380B
+//01571C0B
+//0169380B
+//016B1C0B
+//017D380B
+//017F1C0B
+
+
+//Rx Gain (TIA_GAIN=6, PGA_GAIN=6,~+7dB)
+//0155380D
+//01571C0D
+//0169380D
+//016B1C0D
+//017D380D
+//017F1C0D
+
+
+//Rx Gain (TIA_GAIN=7, PGA_GAIN=7,~+11.4dB)
+//0155380F
+//01571C0F
+//0169380F
+//016B1C0F
+//017D380F
+//017F1C0F
+
+
+//Rx Gain (TIA_GAIN=9, PGA_GAIN=7,~+14dB)
+01553813
+01571C0F
+01693813
+016B1C0F
+017D3813
+017F1C0F
+
+//Rx Gain (TIA_GAIN=11, PGA_GAIN=7,~+17dB)
+//01553817
+//01571C0F
+//01693817
+//016B1C0F
+//017D3817
+//017F1C0F
+
+
+// *************************************************************************************************    RFIC_MOD_SET(FH, FL, TGAP,Tset,Tm,N)
+00210000	// FMCW Modulation BW 57-64GHz
+002211D0
+00252300
+002400D8	// Tgap= 43.2ms
+0026621F	// Tm=102.4us, N=32
+002A3000
+002B0802
+
+
+
+//****************************************************************************************************     turn off rx1
+//00500DD2	// RX1 Disable
+//0051A1D4
+//00530823
+
+//00640DD2      // RX2 Disable
+//0065A1D4
+//00670823
+
+//00780DD2     //  RX3 Disable
+//0079A1D4
+//007B0823
+
+
+// *************************************************************************************************     RFIC_NORMAL()
+01050000	// RF Wake-up to Normal mode
+
+// *************************************************************************************************     DIG REG Setting
+
+// *************************************************************************************************     RFIC_MOD_ON()
+//00550131
+//00580110
+//00690111
+//006C0110
+//007D0111
+//00800110
+//00590055
+//006D0057
+//00810056
+
+//002940FE	// MOD ON
+
