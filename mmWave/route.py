@@ -11,7 +11,6 @@ app = Flask(__name__)
 
 mmwave_data = {
     "prediction": "Init...",
-    "confidence": "Init..."
 }
 
 # 設定上傳與模型 (YOLO 建議在外面載入一次就好，效能會好很多)
@@ -47,7 +46,7 @@ def upload_file():
             box = results[0].boxes[0]
             cls_id = int(box.cls[0])
             traffic_light = results[0].names[cls_id]
-            traffic_light = traffic_light.capitalize()
+
         print(f"📸 YOLO 辨識: {traffic_light}")
         return jsonify({"traffic_light": traffic_light}), 200
 

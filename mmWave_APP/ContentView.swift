@@ -331,11 +331,13 @@ extension ContentView {
         guard viewModel.isRecording else { return }
         
         if label.contains("Close") {
+            SpeechManager.shared.speak(viewModel.isEnglish ? "Too Close, Stop!" : "距離太近, 注意安全", isEnglish: viewModel.isEnglish)
             impactGenerator = UIImpactFeedbackGenerator(style: .heavy)
             impactGenerator.prepare()
             DispatchQueue.main.async { self.impactGenerator.impactOccurred() }
             startHighFrequencyHaptics(interval: 0.2, style: .heavy)
         } else if label.contains("Far") {
+            SpeechManager.shared.speak(viewModel.isEnglish ? "Obstacle ahead" : "前方有障礙物", isEnglish: viewModel.isEnglish)
             impactGenerator = UIImpactFeedbackGenerator(style: .light)
             impactGenerator.prepare()
             DispatchQueue.main.async { self.impactGenerator.impactOccurred() }
